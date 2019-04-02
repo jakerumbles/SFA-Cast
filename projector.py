@@ -3,11 +3,20 @@
 # Class: CSC 435-001
 # Project: SFA-Cast
 
+#Libraries
+import socket
 import numpy as np
 import cv2
 from PIL import ImageGrab
 
-#UDP Multicasting 
+#UDP Multicasting
+SFACAST_GRP = '224.1.1.1'
+SFACAST_PORT = 5007
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+sock.bind((SFACAST_GRP, SFACAST_PORT))
+# print("Socket Created.") #Checker
+
 
 #Continuously grab frames until the 'esc' key is pressed
 while True:
