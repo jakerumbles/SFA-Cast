@@ -7,6 +7,8 @@ import numpy as np
 import cv2
 from PIL import ImageGrab
 
+#UDP Multicasting 
+
 #Continuously grab frames until the 'esc' key is pressed
 while True:
     img = ImageGrab.grab(bbox=(0,0,1920,1080)) #Pillow img
