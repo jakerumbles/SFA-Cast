@@ -7,7 +7,7 @@
 import socket
 import numpy as np
 import cv2
-from PIL import ImageGrab
+import pyscreenshot as ImageGrab
 
 #UDP Multicasting Variables
 SFACAST_GROUP = '224.0.0.1'   # IP from Dr. Glendowne
@@ -19,7 +19,7 @@ sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
 #Continuously grab frames until the 'esc' key is pressed
 while True:
-    img = ImageGrab.grab(bbox=(0,0,1920,1080)) #Pillow img
+    img = ImageGrab.grab(bbox=(10, 10, 510, 510)) #Pillow img
     img_np = np.array(img) #Convert pillow image to numpy array
 
     frame = cv2.cvtColor(img_np, cv2.COLOR_BGR2RGB) #Convert to proper color space
@@ -30,3 +30,4 @@ while True:
         break
     
 cv2.destroyAllWindows()
+
