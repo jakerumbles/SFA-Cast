@@ -4,7 +4,7 @@ from zlib import decompress
 import os
 import pygame
 
-WIDTH = 1900
+WIDTH = 1920
 HEIGHT = 1080
 
 

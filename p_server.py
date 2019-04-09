@@ -8,12 +8,12 @@ from mss import mss
 import cv2
 #import numpy
 
-WIDTH = 1900
+WIDTH = 1920
 HEIGHT = 1080
 
-def retreive_screenshot(conn):
+def retreive_frame(conn):
     '''
-    Use mss module to grab screenshot
+    Use mss module to grab current frame
     '''
     with mss() as sct:
         # The region to capture
@@ -52,7 +52,7 @@ def main(host='144.96.63.138', port=5000):
         while 'connected':
             conn, addr = sock.accept()
             print('Client connected IP:', addr)
-            thread = Thread(target=retreive_screenshot, args=(conn,))
+            thread = Thread(target=retreive_frame, args=(conn,))
             thread.start()
     finally:
         sock.close()
