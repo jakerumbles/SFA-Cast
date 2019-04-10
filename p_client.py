@@ -1,6 +1,6 @@
 import socket
 from zlib import decompress
-
+import sys
 import os
 import pygame
 

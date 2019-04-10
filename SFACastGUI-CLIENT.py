@@ -3,6 +3,9 @@ import os
 from tkinter import *
 import threading
 from p_client import screenshot
+import platform
+
+os = platform.system().lower()
 
 tk = Tk()  
 
@@ -34,13 +37,25 @@ pic.pack()
 
 def run():
     os.system('py p_client.py')
+    
+def opendir():
+    if(os == "windows:"):
+        desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
+    elif(os == "linux"):
+        desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
+    else:
+        print("Your OS does not support this function at this time.")
+os.startfile(desktop) 
 
+#Screenshoting thread
 screenshot_t = threading.Thread(target=screenshot, args=())
 
 runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=run) #Start button
 runButton.pack()
 picButton = Button(tk, text='SCREENSHOT LIBRARY',font =('Arial',26), width=20, fg='purple4', command=screenshot_t.start) #See Screenshots button
 picButton.pack()
+openpicButton = Button(tk, text='SCREENSHOT LIBRARY',font =('Arial',26), width=20, fg='purple4', command=opendir) #See Screenshots button
+openpicButton.pack()
 exitButton = Button(tk, text='EXIT', width=20, font =('Arial',26), fg='purple4', command=tk.destroy) #Exit button
 exitButton.pack()
 
