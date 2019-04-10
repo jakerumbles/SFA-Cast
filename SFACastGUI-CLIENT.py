@@ -1,7 +1,9 @@
 import sys
 import os
 from tkinter import *
+import platform
 
+os = platform.system().lower()
 
 tk = Tk()  
 
@@ -33,11 +35,17 @@ pic.pack()
 
 def run():
     os.system('python p_client.py')
+    
+def opendir():
+    desktop = os.path.expanduser("~/Desktop")
+    os.startfile(desktop) 
 
 runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=run) #Start button
 runButton.pack()
-picButton = Button(tk, text='SCREENSHOT LIBRARY',font =('Arial',26), width=20, fg='purple4') #See Screenshots button
+picButton = Button(tk, text='SCREENSHOT LIBRARY',font =('Arial',26), width=20, fg='purple4',) #See Screenshots button
 picButton.pack()
+openpicButton = Button(tk, text='SCREENSHOT LIBRARY',font =('Arial',26), width=20, fg='purple4', command=opendir) #See Screenshots button
+openpicButton.pack()
 exitButton = Button(tk, text='EXIT', width=20, font =('Arial',26), fg='purple4', command=tk.destroy) #Exit button
 exitButton.pack()
 
