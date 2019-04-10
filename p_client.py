@@ -58,7 +58,7 @@ def main(host='144.96.63.138', port=5000):
             # Create the Surface from raw pixels
             img = pygame.image.fromstring(pixels, (WIDTH, HEIGHT), 'RGB')
 
-            dis = pygame.transform.scale(img, (WID,HGT))
+            dis = pygame.transform.smoothscale(img, (WID,HGT))
 
             # Display the picture
             screen.blit(dis, (0, 0))
