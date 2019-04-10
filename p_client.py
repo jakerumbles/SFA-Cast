@@ -3,9 +3,15 @@ from zlib import decompress
 import sys
 import os
 import pygame
+import threading
 
 WIDTH = 1920
 HEIGHT = 1080
+img = None
+
+def screenshot():
+    print(img)
+
 
 def recvall(conn, length):
     """ Retreive all pixels. """
@@ -19,13 +25,13 @@ def recvall(conn, length):
     return buf
 
 
-def main(host='144.96.63.138', port=5000):
+def main(host='144.96.63.85', port=5000):
     pygame.init()
     pygame.display.set_caption('SFA Cast')
     infoObj = pygame.display.Info()
     WID = infoObj.current_w
     HGT = infoObj.current_h
-    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+    screen = pygame.display.set_mode((WID, HGT), pygame.RESIZABLE)
     clock = pygame.time.Clock()
     watching = True    
 
@@ -58,10 +64,10 @@ def main(host='144.96.63.138', port=5000):
             # Create the Surface from raw pixels
             img = pygame.image.fromstring(pixels, (WIDTH, HEIGHT), 'RGB')
 
-            #img = pygame.transform.scale(img, (WID, HGT))
+            dis = pygame.transform.smoothscale(img, (WID,HGT))
 
             # Display the picture
-            screen.blit(img, (0, 0))
+            screen.blit(dis, (0, 0))
             pygame.display.flip()
             clock.tick(60)
     finally:

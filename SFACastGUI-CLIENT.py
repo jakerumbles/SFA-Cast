@@ -1,8 +1,11 @@
 import sys
 import os
 from tkinter import *
+import threading
+from p_client import screenshot
 
 pathname = "~/Desktop" #Defaults path to Desktop if not changed
+
 
 # GUI Intialization and header
 def pathdesk():
@@ -18,6 +21,14 @@ def opendir():
     newpath = direct + "/SFACAST-Screenshots"
     if not os.path.exists(newpath):
         os.makedirs(newpath)
+        
+def start_cast():
+    cast_t = threading.Thread(target=run, args=())
+    cast_t.start() 
+#Screenshoting thread
+def start_screenshot():
+    screenshot_t = threading.Thread(target=screenshot, args=())
+    screenshot_t.start()
 
 
 tk = Tk()  
@@ -50,6 +61,11 @@ pic.pack()
 runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=run) #Start button
 runButton.pack()
 picButton = Button(tk, text='SCREENSHOT',font =('Arial',26), width=20, fg='purple4',) #See Screenshots button
+
+
+runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=start_cast) #Start button
+runButton.pack()
+picButton = Button(tk, text='SCREENSHOT',font =('Arial',26), width=20, fg='purple4', command=start_screenshot) #See Screenshots button
 picButton.pack()
 openpicButton = Button(tk, text='SCREENSHOT LIBRARY',font =('Arial',26), width=20, fg='purple4', command=opendir) #See Screenshots button
 openpicButton.pack()
