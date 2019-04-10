@@ -20,7 +20,7 @@ def recvall(conn, length):
     return buf
 
 
-def main(host='144.96.63.138', port=5000):
+def main(host='144.96.63.85', port=5000):
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()

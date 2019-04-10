@@ -32,7 +32,7 @@ pic = Label(frame, image=img)
 pic.pack()
 
 def run():
-    os.system('python p_client.py')
+    os.system('py p_client.py')
 
 runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=run) #Start button
 runButton.pack()
