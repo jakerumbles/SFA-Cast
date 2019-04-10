@@ -26,7 +26,7 @@ def main(host='144.96.63.138', port=5000):
     infoObj = pygame.display.Info()
     WID = infoObj.current_w
     HGT = infoObj.current_h
-    screen = pygame.display.set_mode((WID, HGT), pygame.RESIZABLE)
+    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
     clock = pygame.time.Clock()
     watching = True    
 
@@ -57,9 +57,9 @@ def main(host='144.96.63.138', port=5000):
             pixels = decompress(recvall(sock, size))
 
             # Create the Surface from raw pixels
-            img = pygame.image.fromstring(pixels, (WID, HGT), 'RGB')
+            img = pygame.image.fromstring(pixels, (WIDTH, HEIGHT), 'RGB')
 
-            img = pygame.transform.scale(img, (WID, HGT))
+            #img = pygame.transform.scale(img, (WID, HGT))
 
             # Display the picture
             screen.blit(img, (0, 0))
