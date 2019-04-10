@@ -37,13 +37,8 @@ def run():
     os.system('python p_client.py')
     
 def opendir():
-    if(os == "windows:"):
-    desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
-    elif(os == "linux"):
-    desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
-    else:
-        print("Your OS does not support this function at this time.")
-os.startfile(desktop) 
+    desktop = os.path.expanduser("~/Desktop")
+    os.startfile(desktop) 
 
 runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=run) #Start button
 runButton.pack()
