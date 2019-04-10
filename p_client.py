@@ -6,7 +6,10 @@ import pygame
 
 WIDTH = 1920
 HEIGHT = 1080
+img = None
 
+def screenshot():
+    print(img)
 
 def recvall(conn, length):
     """ Retreive all pixels. """
