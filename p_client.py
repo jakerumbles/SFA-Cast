@@ -7,7 +7,6 @@ import pygame
 WIDTH = 1920
 HEIGHT = 1080
 
-
 def recvall(conn, length):
     """ Retreive all pixels. """
 
