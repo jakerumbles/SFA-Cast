@@ -15,6 +15,8 @@ def pathpic():
     pathname = "~/Pictures"
 def run():
     os.system('python p_client.py')
+def readme():
+    os.system('open README.md')
 def opendir():
     direct = os.path.expanduser(pathname)
     newpath = direct + "/SFACAST-Screenshots"
@@ -45,7 +47,7 @@ edit.add_command(label="Documents", command = pathdoc)
 edit.add_command(label="Pictures", command = pathpic)
 menu.add_cascade(label="Change Screenshot Location", menu=edit)
 helper = Menu(menu) # Helper txt file open
-helper.add_command(label="Info")
+helper.add_command(label="Info", command = readme)
 menu.add_cascade(label="Help", menu=helper)
 
 #Label Logo
