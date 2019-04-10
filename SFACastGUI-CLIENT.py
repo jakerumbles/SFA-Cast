@@ -32,6 +32,10 @@ img = PhotoImage(file='sfacast.png')
 pic = Label(frame, image=img)
 pic.pack()
 
+def start_cast():
+    cast_t = threading.Thread(target=run, args=())
+    cast_t.start()
+
 def run():
     os.system('py p_client.py')
     
@@ -40,11 +44,14 @@ def opendir():
     os.startfile(desktop) 
 
 #Screenshoting thread
-screenshot_t = threading.Thread(target=screenshot, args=())
+def start_screenshot():
+    screenshot_t = threading.Thread(target=screenshot, args=())
+    screenshot_t.start()
 
-runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=run) #Start button
+
+runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=start_cast) #Start button
 runButton.pack()
-picButton = Button(tk, text='SCREENSHOT',font =('Arial',26), width=20, fg='purple4', command=screenshot_t.start) #See Screenshots button
+picButton = Button(tk, text='SCREENSHOT',font =('Arial',26), width=20, fg='purple4', command=start_screenshot) #See Screenshots button
 picButton.pack()
 openpicButton = Button(tk, text='SCREENSHOT LIBRARY',font =('Arial',26), width=20, fg='purple4', command=opendir) #See Screenshots button
 openpicButton.pack()
