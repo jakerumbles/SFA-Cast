@@ -13,6 +13,8 @@ pygame.init()
 infoObj = pygame.display.Info()
 WID = infoObj.current_w
 HGT = infoObj.current_h
+print(WID)
+print(HGT)
 
 def retreive_frame(conn):
     '''
@@ -41,7 +43,7 @@ def retreive_frame(conn):
             # Send pixels
             conn.sendall(pixels)
 
-def main(host='192.168.0.105', port=5003):
+def main(host='144.96.38.164', port=8080):
     '''
     Main method
     '''

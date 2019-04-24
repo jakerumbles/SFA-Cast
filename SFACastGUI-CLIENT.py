@@ -2,7 +2,7 @@ import sys
 import os
 from tkinter import *
 import threading
-from p_client import screenshot
+#from p_client import screenshot
 
 pathname = "~/Desktop" #Defaults path to Desktop if not changed
 
