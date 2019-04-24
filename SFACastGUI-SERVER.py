@@ -1,7 +1,7 @@
 import sys
 import os
 from tkinter import *
-
+import threading
 
 tk = Tk()  
 
@@ -28,9 +28,21 @@ pic.pack()
 def run():
     os.system('py p_server.py')
 
-runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=run) #Start button
+#Start cast thread
+def start_cast():
+    cast_t = threading.Thread(target=run, args=())
+    cast_t.start()
+
+def quit():
+    tk.destroy()
+
+def start_quit():
+    quit_t = threading.Thread(target=quit, args=())
+    quit_t.start()
+
+runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=start_cast) #Start button
 runButton.pack()
-exitButton = Button(tk, text='EXIT', width=20, font =('Arial',26), fg='purple4', command=tk.destroy) #Exit button
+exitButton = Button(tk, text='EXIT', width=20, font =('Arial',26), fg='purple4', command=start_quit) #Exit button
 exitButton.pack()
 
 

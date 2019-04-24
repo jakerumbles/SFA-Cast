@@ -43,7 +43,7 @@ def retreive_frame(conn):
             # Send pixels
             conn.sendall(pixels)
 
-def main(host='144.96.38.164', port=8080):
+def main(host='144.96.36.213', port=5006):
     '''
     Main method
     '''

@@ -28,7 +28,7 @@ def recvall(conn, length):
     return buf
 
 
-def main(host='144.96.63.85', port=5000):
+def main(host='144.96.63.204', port=5000):
     pygame.init()
     pygame.display.set_caption('SFA Cast')
     infoObj = pygame.display.Info()
@@ -54,7 +54,7 @@ def main(host='144.96.63.85', port=5000):
                         pygame.image.save(pygame.display.get_surface(), screenshot_path())
                     if event.key == pygame.K_ESCAPE :
                         print("ESC key pressed. Closing Window.")
-                        watching = False
+                        watching = False3
                         break
             infoObj = pygame.display.Info()
             WID = infoObj.current_w
@@ -66,7 +66,7 @@ def main(host='144.96.63.85', port=5000):
             size = int.from_bytes(sock.recv(size_len), byteorder='big')
             pixels = decompress(recvall(sock, size))
 
-            # Create the Surface from raw pixels
+            # Create the Surface from raw 
             img = pygame.image.fromstring(pixels, (WIDTH, HEIGHT), 'RGB')
 
             dis = pygame.transform.smoothscale(img, (WID,HGT))
