@@ -2,20 +2,24 @@ import sys
 import os
 from tkinter import *
 import threading
+import platform
 
 pathname = "~/Desktop" #Defaults path to Desktop if not changed
 
-# Methods 
+# Methods
+
+def getOS():
+        platform.system()
 def pathdesk():
-    pathname = "~/Desktop"
+        pathname = "~/Desktop"
 def pathdoc():
-    pathname = "~/Documents"
+        pathname = "~/Documents"
 def pathpic():
-    pathname = "~/Pictures"
+        pathname = "~/Pictures"
 def run():
-    os.system('py p_client.py')
+        os.system('py p_client.py')
 def readme():
-    os.system('open README.md')
+        os.system('open README.md')
 def opendir():
         direct = os.path.expanduser(pathname)
         newpath = direct + "/SFACAST-Screenshots"
