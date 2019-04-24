@@ -20,7 +20,7 @@ def retreive_frame(conn):
     '''
     with mss() as sct:
         # The region to capture
-        monitor = {'top': 0, 'left': 0, 'width': WIDTH, 'height': HEIGHT}
+        monitor = {'top': 0, 'left': 0, 'width': WID, 'height': HGT}
         # monitor = sct.monitors[0]
         while 'capturing':
             # Capture the screen
