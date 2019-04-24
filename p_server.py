@@ -7,7 +7,7 @@ import socket
 from mss import mss
 import cv2
 #import numpy
-
+import pygame
 
 pygame.init()
 infoObj = pygame.display.Info()
