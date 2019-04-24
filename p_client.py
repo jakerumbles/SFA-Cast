@@ -6,8 +6,8 @@ import pygame
 import threading
 import datetime
 
-WIDTH = 1920
-HEIGHT = 1080
+WIDTH = 2560
+HEIGHT = 1600
 
 
 def screenshot_path():
@@ -34,7 +34,7 @@ def main(host='144.96.63.85', port=5000):
     infoObj = pygame.display.Info()
     WID = infoObj.current_w
     HGT = infoObj.current_h
-    screen = pygame.display.set_mode((WID, HGT), pygame.RESIZABLE)
+    screen = pygame.display.set_mode((1600, 900), pygame.RESIZABLE)
     clock = pygame.time.Clock()
     watching = True    
 

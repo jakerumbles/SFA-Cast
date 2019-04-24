@@ -8,8 +8,11 @@ from mss import mss
 import cv2
 #import numpy
 
-WIDTH = 1920
-HEIGHT = 1080
+
+pygame.init()
+infoObj = pygame.display.Info()
+WID = infoObj.current_w
+HGT = infoObj.current_h
 
 def retreive_frame(conn):
     '''
