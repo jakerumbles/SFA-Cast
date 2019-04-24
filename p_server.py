@@ -7,9 +7,12 @@ import socket
 from mss import mss
 import cv2
 #import numpy
+import pygame
 
-WIDTH = 1920
-HEIGHT = 1080
+pygame.init()
+infoObj = pygame.display.Info()
+WID = infoObj.current_w
+HGT = infoObj.current_h
 
 def retreive_frame(conn):
     '''
@@ -17,7 +20,7 @@ def retreive_frame(conn):
     '''
     with mss() as sct:
         # The region to capture
-        monitor = {'top': 0, 'left': 0, 'width': WIDTH, 'height': HEIGHT}
+        monitor = {'top': 0, 'left': 0, 'width': WID, 'height': HGT}
         # monitor = sct.monitors[0]
         while 'capturing':
             # Capture the screen

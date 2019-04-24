@@ -17,10 +17,12 @@ def run():
 def readme():
     os.system('open README.md')
 def opendir():
-    direct = os.path.expanduser(pathname)
-    newpath = direct + "/SFACAST-Screenshots"
-    if not os.path.exists(newpath):
-        os.makedirs(newpath)
+        direct = os.path.expanduser(pathname)
+        newpath = direct + "/SFACAST-Screenshots"
+        if not os.path.exists(newpath):
+                os.makedirs(newpath)
+        os.system("open %s" % newpath)
+        
         
 def start_cast():
     cast_t = threading.Thread(target=run, args=())
