@@ -2,7 +2,6 @@ import sys
 import os
 from tkinter import *
 import threading
-from p_client import screenshot
 
 pathname = "~/Desktop" #Defaults path to Desktop if not changed
 
@@ -14,7 +13,7 @@ def pathdoc():
 def pathpic():
     pathname = "~/Pictures"
 def run():
-    os.system('python p_client.py')
+    os.system('py p_client.py')
 def readme():
     os.system('open README.md')
 def opendir():
