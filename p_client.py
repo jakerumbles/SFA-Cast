@@ -4,13 +4,16 @@ import sys
 import os
 import pygame
 import threading
+import datetime
 
 WIDTH = 1920
 HEIGHT = 1080
-img = None
 
-def screenshot():
-    print(img)
+
+def screenshot_path():
+    path = datetime.datetime.now().strftime('screenshot_%Y-%m-%d_%H_%M_%S.jpg')
+    print("Screenshot saved as: %s" % path)
+    return path
 
 
 def recvall(conn, length):
@@ -47,6 +50,8 @@ def main(host='144.96.63.85', port=5000):
                     watching = False
                     break
                 elif event.type == pygame.KEYDOWN :
+                    if event.key == pygame.K_F12:
+                        pygame.image.save(pygame.display.get_surface(), screenshot_path())
                     if event.key == pygame.K_ESCAPE :
                         print("ESC key pressed. Closing Window.")
                         watching = False
