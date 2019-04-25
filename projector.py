@@ -1,4 +1,4 @@
-# Authors: Jake Edwards, Emalee Keesler, and Rubin Orozco
+# Authors: Jake Edwards, Emalee Keesler, and Ruben Orozco
 # Date: 3/19/2019
 # Class: CSC 435-001
 # Project: SFA-Cast
@@ -14,7 +14,7 @@ SFACAST_PORT = 8080         # High number port
 multicast_group = (SFACAST_GROUP, SFACAST_PORT)
 ttl = struct.pack('b', 2)           # Set time-to-live
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.settimeout(0.2)
+#sock.settimeout(0.2)
 sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 message = b'very important data'
 
