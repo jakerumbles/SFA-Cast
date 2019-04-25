@@ -13,10 +13,13 @@ def getOS():
         return ostype
 def pathdesk():
         pathname = "~/Desktop"
+        return pathname
 def pathdoc():
         pathname = "~/Documents"
+        return pathname
 def pathpic():
         pathname = "~/Pictures"
+        return pathname
 def run():
         ostype = getOS()
         if(ostype == 'Windows'):
