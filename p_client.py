@@ -9,9 +9,13 @@ import datetime
 WIDTH = 2560
 HEIGHT = 1600
 
+def pathh():
+    direct = os.path.expanduser('~/Desktop')
+    newpath = direct + "/SFACAST-Screenshots"
+    return newpath
 
 def screenshot_path():
-    path = datetime.datetime.now().strftime('screenshot_%Y-%m-%d_%H_%M_%S.jpg')
+    path = datetime.datetime.now().strftime('./screenshot/screenshot_%Y-%m-%d_%H_%M_%S.jpg')
     print("Screenshot saved as: %s" % path)
     return path
 
