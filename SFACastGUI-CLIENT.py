@@ -26,11 +26,15 @@ def run():
 def readme():
         os.system('open README.md')
 def opendir():
+        ostype = getOS()
         direct = os.path.expanduser(pathname)
         newpath = direct + "/SFACAST-Screenshots"
         if not os.path.exists(newpath):
                 os.makedirs(newpath)
-        os.system("open %s" % newpath)
+        if(ostype == 'Windows'):
+                os.system("start .%s" % newpath)
+        else:
+                os.system("open %s" % newpath)
         
         
 def start_cast():
