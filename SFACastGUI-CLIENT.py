@@ -9,7 +9,8 @@ pathname = "~/Desktop" #Defaults path to Desktop if not changed
 # Methods
 
 def getOS():
-        platform.system()
+        ostype = platform.system()
+        print(ostype)
 def pathdesk():
         pathname = "~/Desktop"
 def pathdoc():
