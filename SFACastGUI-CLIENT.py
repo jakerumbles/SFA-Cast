@@ -2,26 +2,42 @@ import sys
 import os
 from tkinter import *
 import threading
+import platform
 
 pathname = "~/Desktop" #Defaults path to Desktop if not changed
 
-# Methods 
+# Methods
+
+def getOS():
+        ostype = platform.system()
+        return ostype
 def pathdesk():
-    pathname = "~/Desktop"
+        pathname = "~/Desktop"
+        return pathname
 def pathdoc():
-    pathname = "~/Documents"
+        pathname = "~/Documents"
+        return pathname
 def pathpic():
-    pathname = "~/Pictures"
+        pathname = "~/Pictures"
+        return pathname
 def run():
-    os.system('py p_client.py')
+        ostype = getOS()
+        if(ostype == 'Windows'):
+                os.system('py p_client.py')
+        else:
+                os.system("python3 p_client.py")
 def readme():
-    os.system('open README.md')
+        os.system('open README.md')
 def opendir():
+        ostype = getOS()
         direct = os.path.expanduser(pathname)
         newpath = direct + "/SFACAST-Screenshots"
         if not os.path.exists(newpath):
                 os.makedirs(newpath)
-        os.system("open %s" % newpath)
+        if(ostype == 'Windows'):
+                os.system("start .%s" % newpath)
+        else:
+                os.system("open %s" % newpath)
         
         
 def start_cast():
@@ -31,6 +47,8 @@ def start_cast():
 def start_screenshot():
     screenshot_t = threading.Thread(target=screenshot, args=())
     screenshot_t.start()
+
+
 
 #Tkinter initalizaion and name bar
 tk = Tk()  
@@ -43,7 +61,7 @@ file = Menu(menu) #File - Exit
 file.add_command(label="Exit", command=tk.destroy)
 menu.add_cascade(label="File", menu=file)
 edit = Menu(menu) #Change Screenshot path location
-edit.add_command(label="Desktop", command = pathdesk)
+edit.add_command(label="Desktop", command = getOS)
 edit.add_command(label="Documents", command = pathdoc)
 edit.add_command(label="Pictures", command = pathpic)
 menu.add_cascade(label="Change Screenshot Location", menu=edit)
