@@ -6,9 +6,6 @@ import pygame
 import threading
 import datetime
 
-WIDTH = 2560
-HEIGHT = 1600
-
 def pathh():
     direct = os.path.expanduser('~/Desktop')
     newpath = direct + "/SFACAST-Screenshots"
@@ -32,7 +29,7 @@ def recvall(conn, length):
     return buf
 
 
-def main(host='144.96.63.204', port=5000):
+def main(host='144.96.33.219', port=5006):
     pygame.init()
     pygame.display.set_caption('SFA Cast')
     infoObj = pygame.display.Info()
@@ -44,6 +41,15 @@ def main(host='144.96.63.204', port=5000):
 
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((host, port))
+
+    passed_w = sock.recv(4)
+    w = int(str(passed_w, 'utf8'))
+    print(w)
+
+    passed_h = sock.recv(4)
+    h = int(str(passed_h, 'utf8'))
+    print(h)
+
     try:
         while watching:
             for event in pygame.event.get():
@@ -58,23 +64,21 @@ def main(host='144.96.63.204', port=5000):
                         pygame.image.save(pygame.display.get_surface(), screenshot_path())
                     if event.key == pygame.K_ESCAPE :
                         print("ESC key pressed. Closing Window.")
-                        watching = False3
+                        watching = False
                         break
             infoObj = pygame.display.Info()
             WID = infoObj.current_w
             HGT = infoObj.current_h
 
-            
             # Retreive the size of the pixels length, the pixels length and pixels
             size_len = int.from_bytes(sock.recv(1), byteorder='big')
             size = int.from_bytes(sock.recv(size_len), byteorder='big')
             pixels = decompress(recvall(sock, size))
 
             # Create the Surface from raw 
-            img = pygame.image.fromstring(pixels, (WIDTH, HEIGHT), 'RGB')
+            img = pygame.image.fromstring(pixels, (w, h), 'RGB')
 
             dis = pygame.transform.smoothscale(img, (WID,HGT))
-
             # Display the picture
             screen.blit(dis, (0, 0))
             pygame.display.flip()
@@ -85,4 +89,5 @@ def main(host='144.96.63.204', port=5000):
 
 
 if __name__ == '__main__':
+    os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
     main()
