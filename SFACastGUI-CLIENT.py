@@ -10,7 +10,7 @@ pathname = "~/Desktop" #Defaults path to Desktop if not changed
 
 def getOS():
         ostype = platform.system()
-        print(ostype)
+        return ostype
 def pathdesk():
         pathname = "~/Desktop"
 def pathdoc():
@@ -18,7 +18,11 @@ def pathdoc():
 def pathpic():
         pathname = "~/Pictures"
 def run():
-        os.system('py p_client.py')
+        ostype = getOS()
+        if(ostype == 'Windows'):
+                os.system('py p_client.py')
+        else:
+                os.system("python3 p_client.py")
 def readme():
         os.system('open README.md')
 def opendir():
@@ -37,6 +41,8 @@ def start_screenshot():
     screenshot_t = threading.Thread(target=screenshot, args=())
     screenshot_t.start()
 
+
+
 #Tkinter initalizaion and name bar
 tk = Tk()  
 tk.title('SFA-Cast') 
@@ -48,7 +54,7 @@ file = Menu(menu) #File - Exit
 file.add_command(label="Exit", command=tk.destroy)
 menu.add_cascade(label="File", menu=file)
 edit = Menu(menu) #Change Screenshot path location
-edit.add_command(label="Desktop", command = pathdesk)
+edit.add_command(label="Desktop", command = getOS)
 edit.add_command(label="Documents", command = pathdoc)
 edit.add_command(label="Pictures", command = pathpic)
 menu.add_cascade(label="Change Screenshot Location", menu=edit)
