@@ -15,7 +15,7 @@ pygame.init()
 infoObj = pygame.display.Info()
 WID = infoObj.current_w
 HGT = infoObj.current_h
-def retreive_frame(conn):
+def retreive_frame(conn, group):
     with mss() as sct:
         # The region to capture
         monitor = {'top': 0, 'left': 0, 'width': WID, 'height': HGT}
@@ -30,11 +30,11 @@ def retreive_frame(conn):
             # Send the size of the pixels length
             size = len(pixels)
             size_len = (size.bit_length() + 7) // 8
-            conn.send(bytes([size_len]))
+            conn.sendto(bytes([size_len]), group)
 
             # Send the actual pixels length
             size_bytes = size.to_bytes(size_len, 'big')
-            conn.send(size_bytes)
+            conn.sendto(size_bytes, group)
 
             # Send pixels
             conn.sendall(pixels)
@@ -54,7 +54,7 @@ def main():
             #print('Client connected IP:', addr)
             sock.sendto(str(WID).encode('utf-8'), multicast_group)
             sock.sendto(str(HGT).encode('utf-8'), multicast_group)
-            thread = Thread(target=retreive_frame, args=(sock,))
+            thread = Thread(target=retreive_frame, args=(sock, multicast_group))
             thread.start()
     finally:
         sock.close()
