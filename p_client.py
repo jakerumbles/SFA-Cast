@@ -18,8 +18,6 @@ def screenshot_path():
 
 
 def recvall(conn, length):
-    """ Retreive all pixels. """
-
     buf = b''
     while len(buf) < length:
         data = conn.recv(length - len(buf))
