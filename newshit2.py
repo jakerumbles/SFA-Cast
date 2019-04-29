@@ -76,8 +76,8 @@ def main():
             HGT = infoObj.current_h
 
             # Retreive the size of the pixels length, the pixels length and pixels
-            size_len = int.from_bytes(sock.recv(1), byteorder='big')
-            size = int.from_bytes(sock.recv(size_len), byteorder='big')
+            size_len = int.from_bytes(sock.recvfrom(1), byteorder='big')
+            size = int.from_bytes(sock.recvfrom(size_len), byteorder='big')
             pixels = decompress(recvall(sock, size))
 
             # Create the Surface from raw 
