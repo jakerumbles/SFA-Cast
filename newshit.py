@@ -40,13 +40,12 @@ def retreive_frame(conn):
             conn.sendall(pixels)
 
 def main():
-    SFACAST_GROUP = '239.255.4.3'   # IP from Dr. Glendowne
+    SFACAST_GRP = '239.255.4.3'   # IP from Dr. Glendowne
     SFACAST_PORT = 8080         # High number port
-    multicast_group = (SFACAST_GROUP, SFACAST_PORT)
-    ttl = struct.pack('b', 2)           # Set time-to-live
+    SFACAST_TTL = 2
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-    #sock.settimeout(0.2)
-    sock.setsockopt(socket.SOL_IP, socket.IP_MULTICAST_IF, socket.inet_aton(multicast_group))
+    sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, SFACAST_TTL)
+    sock.sendto((SFACAST_GRP, SFACAST_PORT))
 
     try:
         print('Server started.')
