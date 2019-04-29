@@ -41,10 +41,10 @@ def main():
     clock = pygame.time.Clock()
     watching = True    
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.bind((SFACAST_GRP, SFACAST_PORT))
     group = socket.inet_aton(SFACAST_GRP)
-    mreq = struct.pack('4sL', group, socket.INADDR_ANY)
+    mreq = struct.pack('4s4s', group, socket.inet_aton(group))
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
 
     passed_w = sock.recvfrom(4)

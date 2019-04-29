@@ -44,9 +44,9 @@ def main():
     SFACAST_PORT = 8080         # High number port
     multicast_group = (SFACAST_GROUP, SFACAST_PORT)
     ttl = struct.pack('b', 2)           # Set time-to-live
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     #sock.settimeout(0.2)
-    sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
+    sock.setsockopt(socket.SOL_IP, socket.IP_MULTICAST_IF, socket.inet_aton(multicast_group))
 
     try:
         print('Server started.')
