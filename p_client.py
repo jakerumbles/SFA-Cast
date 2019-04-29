@@ -6,8 +6,8 @@ import pygame
 import threading
 import datetime
 
-WIDTH = 2560
-HEIGHT = 1600
+WIDTH = 1920
+HEIGHT = 1080
 
 
 def screenshot_path():
