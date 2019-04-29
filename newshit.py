@@ -40,7 +40,7 @@ def retreive_frame(conn):
             conn.sendall(pixels)
 
 def main():
-    SFACAST_GROUP = '224.0.0.1'   # IP from Dr. Glendowne
+    SFACAST_GROUP = '239.255.4.3'   # IP from Dr. Glendowne
     SFACAST_PORT = 8080         # High number port
     multicast_group = (SFACAST_GROUP, SFACAST_PORT)
     ttl = struct.pack('b', 2)           # Set time-to-live
