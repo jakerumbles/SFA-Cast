@@ -4,7 +4,7 @@ from tkinter import *
 import threading
 import platform
 
-pathname = "~/Desktop" #Defaults path to Desktop if not changed
+#pathname = "~/Desktop" #Defaults path to Desktop if not changed
 
 #Gets the Operating System the computer is running
 def getOS():
