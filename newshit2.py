@@ -21,7 +21,7 @@ def screenshot_path():
 def recvall(conn, length):
     buf = b''
     while len(buf) < length:
-        data = conn.recv(length - len(buf))
+        data = conn.recvfrom(length - len(buf))
         if not data:
             return data
         buf += data
@@ -47,11 +47,11 @@ def main():
     mreq = struct.pack('4sL', group, socket.INADDR_ANY)
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
 
-    passed_w = sock.recv(4)
+    passed_w = sock.recvfrom(4)
     w = int(str(passed_w, 'utf8'))
     print(w)
 
-    passed_h = sock.recv(4)
+    passed_h = sock.recvfrom(4)
     h = int(str(passed_h, 'utf8'))
     print(h)
 
