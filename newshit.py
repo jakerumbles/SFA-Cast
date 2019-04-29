@@ -46,7 +46,6 @@ def main():
     multicast_group = (SFACAST_GRP, SFACAST_PORT)
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, SFACAST_TTL)
-    sock.sendto((SFACAST_GRP, SFACAST_PORT))
 
     try:
         print('Server started.')
