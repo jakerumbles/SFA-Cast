@@ -46,7 +46,7 @@ def main():
     ttl = struct.pack('b', 2)           # Set time-to-live
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     #sock.settimeout(0.2)
-    sock.setsockopt(socket.SOL_IP, socket.IP_MULTICAST_IF, socket.inet_aton(MCAST_IF_IP))
+    sock.setsockopt(socket.SOL_IP, socket.IP_MULTICAST_IF, socket.inet_aton(multicast_group))
 
     try:
         print('Server started.')

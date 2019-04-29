@@ -44,7 +44,7 @@ def main():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.bind((SFACAST_GRP, SFACAST_PORT))
     group = socket.inet_aton(SFACAST_GRP)
-    mreq = struct.pack('4s4s', group, socket.inet_aton(MCAST_IF_IP))
+    mreq = struct.pack('4s4s', group, socket.inet_aton(group))
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
 
     passed_w = sock.recvfrom(4)
