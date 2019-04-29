@@ -20,6 +20,9 @@ def pathdoc():
 def pathpic():
         pathname = "~/Pictures"
         return pathname
+def pathdefault():
+        pathname = "~/SFACAST-Screenshots"
+        return pathname
 def run():
         ostype = getOS()
         if(ostype == 'Windows'):
@@ -61,7 +64,8 @@ file = Menu(menu) #File - Exit
 file.add_command(label="Exit", command=tk.destroy)
 menu.add_cascade(label="File", menu=file)
 edit = Menu(menu) #Change Screenshot path location
-edit.add_command(label="Desktop", command = getOS)
+edit.add_command(label="Default", command = pathdefault)
+edit.add_command(label="Desktop", command = pathdesk)
 edit.add_command(label="Documents", command = pathdoc)
 edit.add_command(label="Pictures", command = pathpic)
 menu.add_cascade(label="Change Screenshot Location", menu=edit)
