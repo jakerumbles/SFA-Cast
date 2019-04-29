@@ -52,8 +52,8 @@ def main():
 
         while 'connected':
             #print('Client connected IP:', addr)
-            sock.sendto(str(WID).encode('utf-8'), multicast_group)
-            sock.sendto(str(HGT).encode('utf-8'), multicast_group)
+            sock.sendto(str(WID).encode('utf-8'), (SFACAST_GRP, SFACAST_PORT))
+            sock.sendto(str(HGT).encode('utf-8'), (SFACAST_GRP, SFACAST_PORT))
             thread = Thread(target=retreive_frame, args=(sock,))
             thread.start()
     finally:
