@@ -1,33 +1,44 @@
-# Authors: Jake Edwards, Emalee Keesler, and Rubin Orozco
+# Authors: Jake Edwards, Emalee Keesler, and Ruben Orozco
 # Date: 3/19/2019
 # Class: CSC 435-001
 # Project: SFA-Cast
 
 #Libraries
 import socket
-import numpy as np
-import cv2
-import pyscreenshot as ImageGrab
+import sys
+import struct
 
 #UDP Multicasting Variables
 SFACAST_GROUP = '224.0.0.1'   # IP from Dr. Glendowne
 SFACAST_PORT = 8080         # High number port
-ttl = 2             # Set time-to-live
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+multicast_group = (SFACAST_GROUP, SFACAST_PORT)
+ttl = struct.pack('b', 2)           # Set time-to-live
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+#sock.settimeout(0.2)
 sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
+message = b'very important data'
 
 
-#Continuously grab frames until the 'esc' key is pressed
-while True:
-    img = ImageGrab.grab(bbox=(10, 10, 510, 510)) #Pillow img
-    img_np = np.array(img) #Convert pillow image to numpy array
+try:
 
-    frame = cv2.cvtColor(img_np, cv2.COLOR_BGR2RGB) #Convert to proper color space
+    # Send data to the multicast group
+    print('sending {!r}'.format(message))
+    sent = sock.sendto(message, multicast_group)
 
-    cv2.imshow("Screen", frame)
+    # Look for responses from all recipients
+    while True:
+        print('waiting to receive')
+        try:
+            data, server = sock.recvfrom(16)
+        except socket.timeout:
+            print('timed out, no more responses')
+            break
+        else:
+            print('received {!r} from {}'.format(
+                data, server))
 
-    if cv2.waitKey(1) ==27:
-        break
-    
-cv2.destroyAllWindows()
+finally:
+    print('closing socket')
+    sock.close()
+
 

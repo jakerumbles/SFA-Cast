@@ -4,16 +4,15 @@ Projector Server
 from threading import Thread
 from zlib import compress
 import socket
+import os
 from mss import mss
 import cv2
-#import numpy
-import pygame
 
+import pygame
 pygame.init()
 infoObj = pygame.display.Info()
 WID = infoObj.current_w
 HGT = infoObj.current_h
-
 def retreive_frame(conn):
     '''
     Use mss module to grab current frame
@@ -25,7 +24,7 @@ def retreive_frame(conn):
         while 'capturing':
             # Capture the screen
             img = sct.grab(monitor)
-            
+        
             # Tweak the compression level here (0-9)
             pixels = compress(img.rgb, 9)
 
@@ -41,10 +40,11 @@ def retreive_frame(conn):
             # Send pixels
             conn.sendall(pixels)
 
-def main(host='144.96.36.213', port=5006):
+def main(host='144.96.33.219', port=5006):
     '''
     Main method
     '''
+
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((host, port))
 
@@ -55,6 +55,8 @@ def main(host='144.96.36.213', port=5006):
         while 'connected':
             conn, addr = sock.accept()
             print('Client connected IP:', addr)
+            conn.send(str(WID).encode('utf-8'))
+            conn.send(str(HGT).encode('utf-8'))
             thread = Thread(target=retreive_frame, args=(conn,))
             thread.start()
     finally:
@@ -62,5 +64,6 @@ def main(host='144.96.36.213', port=5006):
 
 
 if __name__ == '__main__':
+    os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
     main()
     
