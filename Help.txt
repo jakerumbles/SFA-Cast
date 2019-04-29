@@ -1,0 +1,16 @@
+Screenshot help:
+
+To take a screenshot press F12 on your keyboard.
+
+To change the location where your screenshots save, look under the edit tab for options.
+Options include:
+-Default (the SFA folder)
+-Desktop
+-Documents
+-Pictures
+
+It will create a folder called "SFACAST-Screenshots" there the first time that location is used.
+Then it will save them in that folder as long as the name is not changed.
+The program defaults to that folder that is already created, unless:
+-the name is changed
+-there is more than one folder with that name

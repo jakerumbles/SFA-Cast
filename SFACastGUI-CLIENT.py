@@ -4,7 +4,7 @@ from tkinter import *
 import threading
 import platform
 
-pathname = "~/Desktop" #Defaults path to Desktop if not changed
+pathname = "~/SFACAST-Screenshots" #Defaults path to Desktop if not changed
 
 #Gets the Operating System the computer is running
 def getOS():
@@ -37,6 +37,9 @@ def run():
 
 def readme():
         os.system('open README.md')
+
+def readme2():
+        os.system('open Help.txt')
 
 def opendir():
         ostype = getOS()
@@ -77,6 +80,7 @@ edit.add_command(label="Pictures", command = pathpic)
 menu.add_cascade(label="Change Screenshot Location", menu=edit)
 helper = Menu(menu) # Helper txt file open
 helper.add_command(label="Info", command = readme)
+helper.add_command(label="Screenshot Help", command = readme2)
 menu.add_cascade(label="Help", menu=helper)
 
 #Label Logo
@@ -94,10 +98,8 @@ pic.pack()
 #Buttons
 runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=start_cast) #Start button
 runButton.pack()
-picButton = Button(tk, text='SCREENSHOT',font =('Arial',26), width=20, fg='purple4', command=start_screenshot) #Take screenshots button
+picButton = Button(tk, text='SCREENSHOT LIBRARY',font =('Arial',26), width=20, fg='purple4', command=opendir) #Take screenshots button
 picButton.pack()
-openpicButton = Button(tk, text='SCREENSHOT LIBRARY',font =('Arial',26), width=20, fg='purple4', command=opendir) #See Screenshots button
-openpicButton.pack()
 exitButton = Button(tk, text='EXIT', width=20, font =('Arial',26), fg='purple4', command=tk.destroy) #Exit button
 exitButton.pack()
 

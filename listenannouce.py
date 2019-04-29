@@ -6,23 +6,11 @@ import struct
 
 
 def ip_is_local(ip_string):
-    """
-    Uses a regex to determine if the input ip is on a local network. Returns a boolean. 
-    It's safe here, but never use a regex for IP verification if from a potentially dangerous source.
-    """
     combined_regex = "(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^192\.168\.)"
     return re.match(combined_regex, ip_string) is not None # is not None is just a sneaky way of converting to a boolean
 
 
 def get_local_ip():
-    """
-    Returns the first externally facing local IP address that it can find.
-    Even though it's longer, this method is preferable to calling socket.gethostbyname(socket.gethostname()) as
-    socket.gethostbyname() is deprecated. This also can discover multiple available IPs with minor modification.
-    We excludes 127.0.0.1 if possible, because we're looking for real interfaces, not loopback.
-    Some linuxes always returns 127.0.1.1, which we don't match as a local IP when checked with ip_is_local().
-    We then fall back to the uglier method of connecting to another server.
-    """
 
     # socket.getaddrinfo returns a bunch of info, so we just get the IPs it returns with this list comprehension.
     local_ips = [ x[4][0] for x in socket.getaddrinfo(socket.gethostname(), 80)
@@ -50,9 +38,6 @@ def get_local_ip():
     return local_ip
 
 def create_socket(multicast_ip, port):
-    """
-    Creates a socket, sets the necessary options on it, then binds it. The socket is then returned for use.
-    """
 
     local_ip = get_local_ip()
 
@@ -71,14 +56,10 @@ def create_socket(multicast_ip, port):
     # Construct a membership request...tells router what multicast group we want to subscribe to
     membership_request = socket.inet_aton(multicast_ip) + socket.inet_aton(local_ip)
 
-    # Send add membership request to socket
-    # See http://www.tldp.org/HOWTO/Multicast-HOWTO-6.html for explanation of sockopts
+
     my_socket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, membership_request)
 
-    # Bind the socket to an interface.
-    # If you bind to a specific interface on the Mac, no multicast data will arrive.
-    # If you try to bind to all interfaces on Windows, no multicast data will arrive.
-    # Hence the following.
+
     if sys.platform.startswith("darwin"):
         my_socket.bind(('0.0.0.0', port))
     else:
@@ -87,19 +68,11 @@ def create_socket(multicast_ip, port):
     return my_socket
 
 def get_bound_multicast_interface(my_socket):
-    """
-    Returns the IP address (probably your local IP) that the socket is bound to for multicast.
-    Note that this may not be the same address you bound to manually if you specified 0.0.0.0.
-    This isn't used here, just a useful utility method.
-    """
+
     response = my_socket.getsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_IF)
     socket.inet_ntoa(struct.pack('i', response))
 
 def drop_multicast_membership(my_socket, multicast_ip):
-    """
-    Drops membership to the specified multicast group without closing the socket.
-    Note that this happens automatically (done by the kernel) if the socket is closed.
-    """
 
     local_ip = get_local_ip()
 
@@ -113,19 +86,14 @@ def listen_loop(multicast_ip, port):
     my_socket = create_socket(multicast_ip, port)
 
     while True:
-        # Data waits on socket buffer until we retrieve it.
-        # NOTE: Normally, you would want to compare the incoming data's source address to your own, and filter it out
-        #       if it came rom the current machine. Everything you send gets echoed back at you if your socket is
-        #       subscribed to the multicast group.
+
         data, address = my_socket.recvfrom(4096)
-        print "%s says the time is %s" % (address, data)
+        print("%s says the time is %s" % (address, data))
 
 def announce_loop(multicast_ip, port):
     # Offset the port by one so that we can send and receive on the same machine
     my_socket = create_socket(multicast_ip, port + 1)
 
-    # NOTE: Announcing every second, as this loop does, is WAY aggressive. 30 - 60 seconds is usually
-    #       plenty frequent for most purposes.
     while True:
         # Just sending Unix time as a message
         message = str(time.time())
@@ -136,10 +104,7 @@ def announce_loop(multicast_ip, port):
 
 
 if __name__ == '__main__':
-    # Choose an arbitrary multicast IP and port.
-    # 239.255.0.0 - 239.255.255.255 are for local network multicast use.
-    # Remember, you subscribe to a multicast IP, not a port. All data from all ports
-    # sent to that multicast IP will be echoed to any subscribed machine.
+
     multicast_address = "239.255.4.3"
     multicast_port = 1234
 
@@ -156,5 +121,5 @@ if __name__ == '__main__':
     elif sys.argv[1] == "announce":
         announce_loop(multicast_address, multicast_port)
     else:
-        exit("Run 'multicast_example.py listen' or 'multicast_example.py announce'.")'
+        exit("Run 'multicast_example.py listen' or 'multicast_example.py announce'.")
     

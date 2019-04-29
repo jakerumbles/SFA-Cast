@@ -5,6 +5,7 @@ import os
 import pygame
 import threading
 import datetime
+import struct
 
 def pathh():
     direct = os.path.expanduser('~/Desktop')
@@ -27,7 +28,10 @@ def recvall(conn, length):
     return buf
 
 
-def main(host='144.96.33.219', port=5006):
+def main():
+    SFACAST_GRP = '224.0.0.1'
+    SFACAST_PORT = 8080
+
     pygame.init()
     pygame.display.set_caption('SFA Cast')
     infoObj = pygame.display.Info()
@@ -37,8 +41,11 @@ def main(host='144.96.33.219', port=5006):
     clock = pygame.time.Clock()
     watching = True    
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.connect((host, port))
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.bind((SFACAST_GRP, SFACAST_PORT))
+    group = socket.inet_aton(SFACAST_GRP)
+    mreq = struct.pack('4sL', group, socket.INADDR_ANY)
+    sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
 
     passed_w = sock.recv(4)
     w = int(str(passed_w, 'utf8'))
