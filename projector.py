@@ -25,6 +25,7 @@ try:
     print('sending {!r}'.format(message))
     sent = sock.sendto(message, multicast_group)
 
+
     # Look for responses from all recipients
     while True:
         print('waiting to receive')
