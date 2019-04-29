@@ -35,8 +35,7 @@ try:
             print('timed out, no more responses')
             break
         else:
-            print('received {!r} from {}'.format(
-                data, server))
+            print('received {!r} from {}'.format(data, server))
 
 finally:
     print('closing socket')
