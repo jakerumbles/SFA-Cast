@@ -45,15 +45,14 @@ def main():
     SFACAST_TTL = 2
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, SFACAST_TTL)
-    sock.sendto("robot", (SFACAST_GRP, SFACAST_PORT))
 
     try:
         print('Server started.')
 
         while 'connected':
             #print('Client connected IP:', addr)
-            sock.sendto(str(WID).encode('utf-8'), multicast_group)
-            sock.sendto(str(HGT).encode('utf-8'), multicast_group)
+            sock.sendto(str(WID).encode('utf-8'), (SFACAST_GRP, SFACAST_PORT))
+            sock.sendto(str(HGT).encode('utf-8'), (SFACAST_GRP, SFACAST_PORT))
             thread = Thread(target=retreive_frame, args=(sock,))
             thread.start()
     finally:
