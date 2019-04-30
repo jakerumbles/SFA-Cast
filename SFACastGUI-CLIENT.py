@@ -10,23 +10,10 @@ pathname = "~/SFACAST-Screenshots" #Defaults path to Desktop if not changed
 def getOS():
         ostype = platform.system()
         return ostype
-#Gets the path to the Desktop and sets as the pathname
-def pathdesk():
-        pathname = "~/Desktop"
-        return pathname
-#Gets the path to Documents and sets as the pathname
-def pathdoc():
-        pathname = "~/Documents"
-        return pathname
-#Gets the path to Pictures and sets as the pathname
-def pathpic():
-        pathname = "~/Pictures"
-        return pathname
-#Gets the default path and sets as the pathname
-def pathdefault():
-        pathname = "~/SFACAST-Screenshots"
-        return pathname
-
+#Gets the path to the selected pathname and sets as the pathname
+def makepath(v):
+        global pathname
+        pathname = v
 
 def run():
         ostype = getOS()
@@ -78,10 +65,9 @@ file = Menu(menu) #File - Exit
 file.add_command(label="Exit", command=tk.destroy)
 menu.add_cascade(label="File", menu=file)
 edit = Menu(menu) #Change Screenshot path location
-edit.add_command(label="Default", command = pathdefault)
-edit.add_command(label="Desktop", command = pathdesk)
-edit.add_command(label="Documents", command = pathdoc)
-edit.add_command(label="Pictures", command = pathpic)
+edit.add_command(label="Desktop", command=lambda *args: makepath("~/Desktop"))
+edit.add_command(label="Documents", command=lambda *args: makepath("~/Documents"))
+edit.add_command(label="Pictures", command=lambda *args: makepath("~/Pictures"))
 menu.add_cascade(label="Change Screenshot Location", menu=edit)
 helper = Menu(menu) # Helper txt file open
 helper.add_command(label="Info", command = readme)
