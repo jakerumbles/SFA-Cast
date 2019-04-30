@@ -57,10 +57,15 @@ def start_cast():
     cast_t = threading.Thread(target=run, args=())
     cast_t.start() 
 
-#Screenshoting thread
-def start_screenshot():
-    screenshot_t = threading.Thread(target=screenshot, args=())
-    screenshot_t.start()
+
+def quit():
+    
+    os._exit(0)
+    tk.destroy()
+
+def start_quit():
+    quit_t = threading.Thread(target=quit, args=())
+    quit_t.start()
 
 #Tkinter initalizaion and name bar
 tk = Tk()  
@@ -100,7 +105,7 @@ runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4',
 runButton.pack()
 picButton = Button(tk, text='SCREENSHOT LIBRARY',font =('Arial',26), width=20, fg='purple4', command=opendir) #Take screenshots button
 picButton.pack()
-exitButton = Button(tk, text='EXIT', width=20, font =('Arial',26), fg='purple4', command=tk.destroy) #Exit button
+exitButton = Button(tk, text='EXIT', width=20, font =('Arial',26), fg='purple4', command=quit) #Exit button
 exitButton.pack()
 
 tk.mainloop()
