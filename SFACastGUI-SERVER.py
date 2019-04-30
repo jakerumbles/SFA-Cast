@@ -33,7 +33,8 @@ def start_cast():
     cast_t = threading.Thread(target=run, args=())
     cast_t.start()
 
-def quit():
+def quit(cast_t):
+    os._exit(0)
     tk.destroy()
 
 def start_quit():
@@ -42,7 +43,7 @@ def start_quit():
 
 runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=start_cast) #Start button
 runButton.pack()
-exitButton = Button(tk, text='EXIT', width=20, font =('Arial',26), fg='purple4', command=start_quit) #Exit button
+exitButton = Button(tk, text='EXIT', width=20, font =('Arial',26), fg='purple4', command=quit) #Exit button
 exitButton.pack()
 
 
