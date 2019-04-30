@@ -4,7 +4,6 @@ To take a screenshot press F12 on your keyboard.
 
 To change the location where your screenshots save, look under the edit tab for options.
 Options include:
--Default (the SFA folder)
 -Desktop
 -Documents
 -Pictures
