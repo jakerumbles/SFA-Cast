@@ -1,3 +1,9 @@
+# Networking Project
+# Ruben, Emalee, Jake
+# 
+# This is the TCP Client 
+# This establishes a TCP socket and connection#
+
 import socket
 from zlib import decompress
 import sys
