@@ -1,8 +1,5 @@
-# Networking Project
-# Ruben, Emalee, Jake
-# 
-# This is the TCP Server 
-# This establishes a TCP socket and connection #
+
+# Projector Server
 
 from threading import Thread
 from zlib import compress
@@ -10,16 +7,15 @@ import socket
 import os
 from mss import mss
 import cv2
+import sys
+import struct
 
 import pygame
 pygame.init()
 infoObj = pygame.display.Info()
 WID = infoObj.current_w
 HGT = infoObj.current_h
-def retreive_frame(conn):
-    '''
-    Use mss module to grab current frame
-    '''
+def retreive_frame(conn, group):
     with mss() as sct:
         # The region to capture
         monitor = {'top': 0, 'left': 0, 'width': WID, 'height': HGT}
@@ -34,33 +30,31 @@ def retreive_frame(conn):
             # Send the size of the pixels length
             size = len(pixels)
             size_len = (size.bit_length() + 7) // 8
-            conn.send(bytes([size_len]))
+            conn.sendto(bytes([size_len]), group)
 
             # Send the actual pixels length
             size_bytes = size.to_bytes(size_len, 'big')
-            conn.send(size_bytes)
+            conn.sendto(size_bytes, group)
 
             # Send pixels
             conn.sendall(pixels)
 
-def main(host='144.96.63.116', port=5006):
-    '''
-    Main method
-    '''
+def main():
+    SFACAST_GRP = '239.255.4.3'   # IP from Dr. Glendowne
+    SFACAST_PORT = 8080         # High number port
+    SFACAST_TTL = 2
+    multicast_group = (SFACAST_GRP, SFACAST_PORT)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+    sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, SFACAST_TTL)
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind((host, port))
-
-    sock.listen(10)
     try:
         print('Server started.')
 
         while 'connected':
-            conn, addr = sock.accept()
-            print('Client connected IP:', addr)
-            conn.send(str(WID).encode('utf-8'))
-            conn.send(str(HGT).encode('utf-8'))
-            thread = Thread(target=retreive_frame, args=(conn,))
+            #print('Client connected IP:', addr)
+            sock.sendto(str(WID).encode('utf-8'), multicast_group)
+            sock.sendto(str(HGT).encode('utf-8'), multicast_group)
+            thread = Thread(target=retreive_frame, args=(sock, multicast_group))
             thread.start()
     finally:
         sock.close()
