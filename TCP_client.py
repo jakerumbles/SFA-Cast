@@ -15,8 +15,7 @@ from SFACastGUICLIENT import pathname
 
 def pathh():
     direct = pathname
-    newpath = direct + "/SFACAST-Screenshots"
-    return newpath
+    return direct
 
 def screenshot_path():
     path = datetime.datetime.now().strftime(pathname() + '/screenshot_%Y-%m-%d_%H_%M_%S.jpg')
