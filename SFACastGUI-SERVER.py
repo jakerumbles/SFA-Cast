@@ -25,8 +25,18 @@ img = PhotoImage(file='sfacast.png')
 pic = Label(frame, image=img)
 pic.pack()
 
+
+#Gets the Operating System the computer is running
+def getOS():
+        ostype = platform.system()
+        return ostype
+
 def run():
-    os.system('py p_server.py')
+        ostype = getOS()
+        if(ostype == 'Windows'):
+                os.system('py TCP_server.py')
+        else:
+                os.system("python3 TCP_server.py")
 
 #Start cast thread
 def start_cast():

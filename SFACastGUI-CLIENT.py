@@ -18,9 +18,9 @@ def makepath(v):
 def run():
         ostype = getOS()
         if(ostype == 'Windows'):
-                os.system('py p_client.py')
+                os.system('py TCP_client.py')
         else:
-                os.system("python3 p_client.py")
+                os.system("python3 TCP_client.py")
 
 def readme():
         os.system('open README.md')
