@@ -35,7 +35,7 @@ def opendir():
         if not os.path.exists(newpath):
                 os.makedirs(newpath)
         if(ostype == 'Windows'):
-                os.system("start %s" % newpath)
+                os.system("start .\screenshot")
         else:
                 os.system("open %s" % newpath)
         
@@ -44,9 +44,7 @@ def start_cast():
     cast_t = threading.Thread(target=run, args=())
     cast_t.start() 
 
-
 def quit():
-    
     os._exit(0)
     tk.destroy()
 

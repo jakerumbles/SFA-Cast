@@ -2,6 +2,7 @@ import sys
 import os
 from tkinter import *
 import threading
+import platform
 
 tk = Tk()  
 
@@ -25,13 +26,23 @@ img = PhotoImage(file='sfacast.png')
 pic = Label(frame, image=img)
 pic.pack()
 
+
+#Gets the Operating System the computer is running
+def getOS():
+        ostype = platform.system()
+        return ostype
+
 def run():
-    os.system('py TCP_server.py')
+        ostype = getOS()
+        if(ostype == 'Windows'):
+                os.system('py TCP_server.py')
+        else:
+                os.system("python3 TCP_server.py")
 
 #Start cast thread
 def start_cast():
     cast_t = threading.Thread(target=run, args=())
-    cast_t.start()
+    cast_t.start() 
 
 def quit():
     os._exit(0)
@@ -41,7 +52,7 @@ def start_quit():
     quit_t = threading.Thread(target=quit, args=())
     quit_t.start()
 
-runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=start_cast) #Start button
+runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=run) #Start button
 runButton.pack()
 exitButton = Button(tk, text='EXIT', width=20, font =('Arial',26), fg='purple4', command=quit) #Exit button
 exitButton.pack()
