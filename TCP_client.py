@@ -11,9 +11,10 @@ import os
 import pygame
 import threading
 import datetime
+from SFACastGUICLIENT import pathname
 
 def pathh():
-    direct = os.path.expanduser('~/Desktop')
+    direct = pathname
     newpath = direct + "/SFACAST-Screenshots"
     return newpath
 
