@@ -8,7 +8,10 @@ import platform
 
 def pathname():
         pathname = "~/SFA-CAST"
-        return pathname
+        newpath = pathname + "/SFACAST-Screenshots"
+        if not os.path.exists(newpath):
+                os.makedirs(newpath)
+        return newpath
 #Gets the Operating System the computer is running
 def getOS():
         ostype = platform.system()
@@ -34,13 +37,10 @@ def readme2():
 def opendir():
         ostype = getOS()
         direct = os.path.expanduser(pathname())
-        newpath = direct + "/SFACAST-Screenshots"
-        if not os.path.exists(newpath):
-                os.makedirs(newpath)
         if(ostype == 'Windows'):
-                os.system("start %s" % newpath)
+                os.system("start %s" % direct)
         else:
-                os.system("open %s" % newpath)
+                os.system("open %s" % direct)
         
         
 def start_cast():
