@@ -26,14 +26,14 @@ pic = Label(frame, image=img)
 pic.pack()
 
 def run():
-    os.system('py p_server.py')
+    os.system('py TCP_server.py')
 
 #Start cast thread
 def start_cast():
     cast_t = threading.Thread(target=run, args=())
     cast_t.start()
 
-def quit(cast_t):
+def quit():
     os._exit(0)
     tk.destroy()
 
