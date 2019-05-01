@@ -1,34 +1,44 @@
+# Authors: Jake Edwards, Emalee Keesler, and Ruben Orozco
+# Date: 3/19/2019
+# Class: CSC 435-001
+# Project: SFA-Cast
 
-
-MYPORT = 8123
-MYGROUP_4 = '225.0.0.250'
-MYGROUP_6 = 'ff15:7079:7468:6f6e:6465:6d6f:6d63:6173'
-MYTTL = 1 # Increase to reach other networks
-
-import time
-import struct
+#Libraries
 import socket
 import sys
+import struct
+
+#UDP Multicasting Variables
+SFACAST_GROUP = '224.0.0.1'   # IP from Dr. Glendowne
+SFACAST_PORT = 8080         # High number port
+multicast_group = (SFACAST_GROUP, SFACAST_PORT)
+ttl = struct.pack('b', 2)           # Set time-to-live
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+#sock.settimeout(0.2)
+sock.setsockopt(socket.SOL_IP, socket.IP_MULTICAST_IF, socket.inet_aton(mul))
+message = b'very important data'
 
 
-group = MYGROUP_6 if "-6" in sys.argv[1:] else MYGROUP_4
+try:
+
+    # Send data to the multicast group
+    print('sending {!r}'.format(message))
+    sent = sock.sendto(message, multicast_group)
 
 
+    # Look for responses from all recipients
+    while True:
+        print('waiting to receive')
+        try:
+            data, server = sock.recvfrom(16)
+        except socket.timeout:
+            print('timed out, no more responses')
+            break
+        else:
+            print('received {!r} from {}'.format(data, server))
 
-addrinfo = socket.getaddrinfo(group, None)[0]
-
-s = socket.socket(addrinfo[0], socket.SOCK_DGRAM)
-
-# Set Time-to-live (optional)
-ttl_bin = struct.pack('@i', MYTTL)
-if addrinfo[0] == socket.AF_INET: # IPv4
-    s.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl_bin)
-else:
-    s.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_MULTICAST_HOPS, ttl_bin)
-
-while True:
-    data = repr(time.time())
-    s.sendto(data + '\0', (addrinfo[4][0], MYPORT))
-    time.sleep(1)
+finally:
+    print('closing socket')
+    sock.close()
 
 

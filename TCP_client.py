@@ -1,3 +1,9 @@
+# Networking Project
+# Ruben, Emalee, Jake
+# 
+# This is the TCP Client 
+# This establishes a TCP socket and connection#
+
 import socket
 from zlib import decompress
 import sys
@@ -5,7 +11,6 @@ import os
 import pygame
 import threading
 import datetime
-import struct
 
 def pathh():
     direct = os.path.expanduser('~/Desktop')
@@ -21,17 +26,14 @@ def screenshot_path():
 def recvall(conn, length):
     buf = b''
     while len(buf) < length:
-        data = conn.recvfrom(length - len(buf))
+        data = conn.recv(length - len(buf))
         if not data:
             return data
         buf += data
     return buf
 
 
-def main():
-    SFACAST_GRP = '224.0.0.1'
-    SFACAST_PORT = 8080
-
+def main(host='144.96.33.219', port=5006):
     pygame.init()
     pygame.display.set_caption('SFA Cast')
     infoObj = pygame.display.Info()
@@ -41,18 +43,14 @@ def main():
     clock = pygame.time.Clock()
     watching = True    
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    sock.bind(('', SFACAST_PORT))
-    #sock.bind((SFAAST_GRP, SFACAST_PORT))
-    mreq = struct.pack("4sl", socket.inet_aton(SFACAST_GRP), socket.INADDR_ANY)
-    sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect((host, port))
 
-    passed_w = sock.recvfrom(4)
+    passed_w = sock.recv(4)
     w = int(str(passed_w, 'utf8'))
     print(w)
 
-    passed_h = sock.recvfrom(4)
+    passed_h = sock.recv(4)
     h = int(str(passed_h, 'utf8'))
     print(h)
 
@@ -77,8 +75,8 @@ def main():
             HGT = infoObj.current_h
 
             # Retreive the size of the pixels length, the pixels length and pixels
-            size_len = int.from_bytes(sock.recvfrom(1), byteorder='big')
-            size = int.from_bytes(sock.recvfrom(size_len), byteorder='big')
+            size_len = int.from_bytes(sock.recv(1), byteorder='big')
+            size = int.from_bytes(sock.recv(size_len), byteorder='big')
             pixels = decompress(recvall(sock, size))
 
             # Create the Surface from raw 

@@ -1,6 +1,9 @@
-'''
-Projector Server
-'''
+# Networking Project
+# Ruben, Emalee, Jake
+# 
+# This is the TCP Server 
+# This establishes a TCP socket and connection #
+
 from threading import Thread
 from zlib import compress
 import socket

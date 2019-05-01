@@ -1,37 +1,47 @@
-MYPORT = 8123
-MYGROUP_4 = '225.0.0.250'
-MYGROUP_6 = 'ff15:7079:7468:6f6e:6465:6d6f:6d63:6173'
-MYTTL = 1 # Increase to reach other networks
-
-import time
-import struct
 import socket
+import struct
 import sys
+from zlib import decompress
 
-# Look up multicast group address in name server and find out IP version
-addrinfo = socket.getaddrinfo(group, None)[0]
+SFACAST_GRP = '224.0.0.1'
+SFACAST_PORT = 8080
 
-# Create a socket
-s = socket.socket(addrinfo[0], socket.SOCK_DGRAM)
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.bind(('', SFACAST_PORT))
 
-# Allow multiple copies of this program on one machine
-# (not strictly needed)
-s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+group = socket.inet_aton(SFACAST_GRP)
+mreq = struct.pack('4sL', group, socket.INADDR_ANY)
+sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+sock.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+#sock.setblocking(False)
+#sock.setsockopt(socket.SOL_IP,socket.IP_ADD_MEMBERSHIP, socket.inet_aton(SFACAST_GRP)+socket.inet_aton("144.96.33.254"))
 
-# Bind it to the port
-s.bind(('', MYPORT))
+def recvall(conn, length):
+    """ Retreive all pixels. """
+    try:
+        buf = conn.recv(length)
+    except:
+        return None
+    
+    return buf
 
-group_bin = socket.inet_pton(addrinfo[0], addrinfo[4][0])
-# Join group
-if addrinfo[0] == socket.AF_INET: # IPv4
-    mreq = group_bin + struct.pack('=I', socket.INADDR_ANY)
-    s.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
-else:
-    mreq = group_bin + struct.pack('@I', 0)
-    s.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_JOIN_GROUP, mreq)
+passed_w, addr = sock.recvfrom(4)
+w = int(str(passed_w, 'utf8'))
+print('received resolution width {} from {}'.format(w, addr))
 
-# Loop, printing any data we receive
+
+passed_h, addr = sock.recvfrom(4)
+h = int(str(passed_h, 'utf8'))
+print('received resolution height {} from {}'.format(h, addr))
+# Receive/respond loop
 while True:
-    data, sender = s.recvfrom(1500)
-    while data[-1:] == '\0': data = data[:-1] # Strip trailing \0's
-    print (str(sender) + '  ' + repr(data))
+    # Retreive the size of the pixels length, the pixels length and pixels
+    s_len, addr = sock.recvfrom(1024)
+    size_len = int(str(s_len, 'utf-8'))
+    print(size_len)
+    #si = int.from_bytes(sock.recvfrom(1024), byteorder='big')
+    si, addr = sock.recvfrom(size_len*2)
+    size = int(str(si,'utf-8'))
+    print("image size in bytes: {}".format(size) )
+
+    #pixels = decompress(recvall(sock, size*2))
