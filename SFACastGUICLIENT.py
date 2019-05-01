@@ -7,7 +7,7 @@ import platform
 #pathname = "~/SFACAST-Screenshots" #Defaults path to Desktop if not changed
 
 def pathname():
-        pathname = "~/SFACAST-Screenshots"
+        pathname = "~/SFA-CAST"
         return pathname
 #Gets the Operating System the computer is running
 def getOS():
