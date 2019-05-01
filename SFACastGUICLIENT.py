@@ -8,6 +8,7 @@ import platform
 
 def pathname():
         pathname = "~/SFACAST-Screenshots"
+        return pathname
 #Gets the Operating System the computer is running
 def getOS():
         ostype = platform.system()

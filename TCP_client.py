@@ -11,6 +11,7 @@ import os
 import pygame
 import threading
 import datetime
+from SFACastGUICLIENT import pathname
 
 def pathh():
     direct = pathname
@@ -18,7 +19,7 @@ def pathh():
     return newpath
 
 def screenshot_path():
-    path = datetime.datetime.now().strftime('./screenshot/screenshot_%Y-%m-%d_%H_%M_%S.jpg')
+    path = datetime.datetime.now().strftime(pathname() + '/screenshot_%Y-%m-%d_%H_%M_%S.jpg')
     print("Screenshot saved as: %s" % path)
     return path
 
@@ -33,7 +34,11 @@ def recvall(conn, length):
     return buf
 
 
+def main(host='144.96.63.57', port=5006):
+    pygame.init()
+    pygame.display.set_caption('SFA Cast')
     infoObj = pygame.display.Info()
+    WID = infoObj.current_w
     HGT = infoObj.current_h
     screen = pygame.display.set_mode((1600, 900), pygame.RESIZABLE)
     clock = pygame.time.Clock()
