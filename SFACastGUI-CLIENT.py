@@ -44,9 +44,7 @@ def start_cast():
     cast_t = threading.Thread(target=run, args=())
     cast_t.start() 
 
-
 def quit():
-    
     os._exit(0)
     tk.destroy()
 

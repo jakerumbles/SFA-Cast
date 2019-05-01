@@ -8,7 +8,7 @@ import datetime
 import struct
 
 
-SFACAST_GRP = '224.0.0.1'
+SFACAST_GRP = '144.96.59.122'
 
 
 def pathh():
@@ -50,7 +50,7 @@ def main(host='224.0.0.1', port=8080):
 
     group = socket.inet_aton(SFACAST_GRP)
     mreq = struct.pack('4sL', group, socket.INADDR_ANY)
-    sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+    #sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
 
     passed_w, addr = sock.recvfrom(4)
     w = int(str(passed_w, 'utf8'))
