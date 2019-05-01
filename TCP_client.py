@@ -11,7 +11,6 @@ import os
 import pygame
 import threading
 import datetime
-from SFACastGUICLIENT import pathname
 
 def pathh():
     direct = pathname
