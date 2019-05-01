@@ -66,11 +66,11 @@ def main():
         file = Menu(menu) #File - Exit
         file.add_command(label="Exit", command=tk.destroy)
         menu.add_cascade(label="File", menu=file)
-        edit = Menu(menu) #Change Screenshot path location
-        edit.add_command(label="Desktop", command=lambda *args: makepath("~/Desktop"))
-        edit.add_command(label="Documents", command=lambda *args: makepath("~/Documents"))
-        edit.add_command(label="Pictures", command=lambda *args: makepath("~/Pictures"))
-        menu.add_cascade(label="Change Screenshot Location", menu=edit)
+       # edit = Menu(menu) #Change Screenshot path location
+        # edit.add_command(label="Desktop", command=lambda *args: makepath("~/Desktop"))
+        # edit.add_command(label="Documents", command=lambda *args: makepath("~/Documents"))
+        # edit.add_command(label="Pictures", command=lambda *args: makepath("~/Pictures"))
+       # menu.add_cascade(label="Change Screenshot Location", menu=edit)
         helper = Menu(menu) # Helper txt file open
         helper.add_command(label="Info", command = readme)
         helper.add_command(label="Screenshot Help", command = readme2)
