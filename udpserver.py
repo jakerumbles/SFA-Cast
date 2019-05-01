@@ -17,8 +17,8 @@ pygame.init()
 infoObj = pygame.display.Info()
 WID = infoObj.current_w
 HGT = infoObj.current_h
-print(WID)
-print(HGT)
+# print(WID)
+# print(HGT)
 
 def retreive_frame(conn):
     '''
@@ -40,28 +40,35 @@ def retreive_frame(conn):
             # Send the size of the pixels length
             size = len(pixels)
             size_len = (size.bit_length() + 7) // 8
-            print(size_len)
+            #print(size_len)
             conn.sendto(str(size_len).encode('utf-8'), (SFACAST_GROUP, SFACAST_PORT))
 
             # Send the actual pixels length
             size_bytes = str(size).encode('utf-8')
             conn.sendto(size_bytes, (SFACAST_GROUP, SFACAST_PORT))
-            print(size_bytes.decode('utf-8'), "sent")
+            #print(size_bytes.decode('utf-8'), "image size in bytes")
             
             # Send pixels
             min = 0
             max = 4096
-            nump = int(size / 4096)
+            s_b = int(size_bytes.decode('utf-8'))
+            nump = int( s_b/ max)
             nump = nump + 1
-            ending = str(nump)
+            ending = str(nump).encode('utf-8')
+            conn.sendto(ending, (SFACAST_GROUP, SFACAST_PORT))
+
+            tp = nump
+            #print("{}: ending sent".format(tp))
             
             check = nump
             while check != 0:
                 runs = pixels[min:max]
-                #conn.sendto(runs, (SFACAST_GROUP, SFACAST_PORT))
+                #print(len(runs))
+                conn.sendto(runs, (SFACAST_GROUP, SFACAST_PORT))
                 min = min + 4096
                 max = max + 4096
                 check -=1
+                
                 #print("sent data")
 
 
@@ -86,6 +93,7 @@ def main():
 
     group = (GRP, PORT)
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     #sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
     #sock.bind((host, port))

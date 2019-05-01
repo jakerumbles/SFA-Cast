@@ -51,7 +51,7 @@ def main(host='144.96.33.219', port=5006):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind((host, port))
 
-    sock.listen(1)
+    sock.listen(10)
     try:
         print('Server started.')
 
