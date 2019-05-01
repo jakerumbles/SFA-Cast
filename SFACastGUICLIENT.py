@@ -35,7 +35,7 @@ def opendir():
         if not os.path.exists(newpath):
                 os.makedirs(newpath)
         if(ostype == 'Windows'):
-                os.system("start %s" % newpath)
+                os.system("start .\screenshot")
         else:
                 os.system("open %s" % newpath)
         
