@@ -4,6 +4,7 @@
 # This is the TCP Client 
 # This establishes a TCP socket and connection#
 
+# Libraries
 import socket
 from zlib import decompress
 import sys
@@ -36,11 +37,12 @@ def recvall(conn, length):
 
 
 def main(host='144.96.63.116', port=5012):
+    # Initalize Pygame
     pygame.init()
     pygame.display.set_caption('SFA Cast')
     infoObj = pygame.display.Info()
-    WID = infoObj.current_w
-    HGT = infoObj.current_h
+    WID = infoObj.current_w # Width
+    HGT = infoObj.current_h # Height 
     screen = pygame.display.set_mode((1600, 900), pygame.RESIZABLE)
     clock = pygame.time.Clock()
     watching = True    

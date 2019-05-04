@@ -1,3 +1,10 @@
+# Networking Project
+# Ruben, Emalee, Jake
+# 
+# This is the UDP Multicast Client 
+# This establishes a UDP Multicast socket and connection#
+
+# Libraries
 import socket
 from zlib import decompress
 import sys
@@ -35,22 +42,24 @@ def buffer(conn, check):
 
 
 def main(host='224.0.0.1', port=8080):
+    # Initalize Pygame
     pygame.init()
     pygame.display.set_caption('SFA Cast')
     infoObj = pygame.display.Info()
-    WID = infoObj.current_w
-    HGT = infoObj.current_h
+    WID = infoObj.current_w # Width
+    HGT = infoObj.current_h # Height
     screen = pygame.display.set_mode((1600, 900), pygame.RESIZABLE)
     clock = pygame.time.Clock()
     watching = True    
 
+    # Socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
-    sock.bind(('', port)) # bind your IP address and port
-
+    # bind YOUR IP address and port
+    sock.bind(('', port))
     group = socket.inet_aton(SFACAST_GRP)
     mreq = struct.pack('4sL', group, socket.INADDR_ANY)
-    #sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+    sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
 
     # Receives Width 
     passed_w, addr = sock.recvfrom(4)
