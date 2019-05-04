@@ -63,7 +63,7 @@ def start_quit():
     quit_t.start()
 
 # Run Button
-runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=run) #Start button
+runButton = Button(tk, text='START', width=20, font =('Arial',26), fg='purple4', command=start_cast) #Start button
 runButton.pack()
 # Exit Button
 exitButton = Button(tk, text='EXIT', width=20, font =('Arial',26), fg='purple4', command=quit) #Exit button

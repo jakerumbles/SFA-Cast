@@ -26,7 +26,7 @@ def retreive_frame(conn):
             # Capture the screen
             img = sct.grab(monitor)
             # Tweak the compression level here (0-9)
-            pixels = compress(img.rgb, 9)z
+            pixels = compress(img.rgb, 9)
             # Send the size of the pixels length
             size = len(pixels)
             size_len = (size.bit_length() + 7) // 8
@@ -42,9 +42,13 @@ def main(host='144.96.63.46', port=5000):
     Main method
     '''
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind((host, port)) # Bind to group and host
-    sock.listen(10) # Allows 10 machines to listen
+    try:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.bind((host, port)) # Bind to group and host
+        sock.listen(10) # Allows 10 machines to listen
+    except OSError as e:
+        print("****Likely the port was already in use.  Increment port by 1 and try again****")
+        print("The error: " + str(e))
     try:
         while 'connected':
             # Get connection and the address that you are sending to

@@ -50,7 +50,7 @@ def main(host='144.96.63.46', port=5000):
         #Socket
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((host, port))
-    except ConnectionRefusedError as e:
+    except ConnectionRefusedError:
         print("Server is not broadcasting...exiting program")
         sys.exit(1)
 
