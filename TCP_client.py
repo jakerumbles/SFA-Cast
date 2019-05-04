@@ -13,13 +13,15 @@ import threading
 import datetime
 from SFACastGUICLIENT import pathname
 
+# pathh() gets the pathname from SFACastGUICLIENT.py
 def pathh():
     direct = pathname
     return direct
 
+# Takes the screenshot, names the screesnshot using the date and time and returns the new path
 def screenshot_path():
     path = datetime.datetime.now().strftime(pathname() + '/screenshot_%Y-%m-%d_%H_%M_%S.jpg')
-    print("Screenshot saved as: %s" % path)
+    # print("Screenshot saved as: %s" % path)
     return path
 
 
@@ -43,13 +45,16 @@ def main(host='144.96.63.116', port=5012):
     clock = pygame.time.Clock()
     watching = True    
 
+    #Socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((host, port))
 
+    # Receives Width 
     passed_w = sock.recv(4)
     w = int(str(passed_w, 'utf8'))
     print(w)
 
+    # Receives Height
     passed_h = sock.recv(4)
     h = int(str(passed_h, 'utf8'))
     print(h)
@@ -57,20 +62,25 @@ def main(host='144.96.63.116', port=5012):
     try:
         while watching:
             for event in pygame.event.get():
+                # Resizes the window so that the feed is resized and not cut off
                 if event.type == pygame.VIDEORESIZE:
-                    # There's some code to add back window content here.
                     screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+                # Quit button breaks the Watching loop #
                 if event.type == pygame.QUIT:
                     watching = False
                     break
                 elif event.type == pygame.KEYDOWN :
+                    # F12 calls the save screenshot function #
                     if event.key == pygame.K_F12:
                         pygame.image.save(pygame.display.get_surface(), screenshot_path())
+                    # Escape key breaks the watching loop
+                    # Useful for malfunctions #
                     if event.key == pygame.K_ESCAPE :
                         print("ESC key pressed. Closing Window.")
                         watching = False
                         break
             infoObj = pygame.display.Info()
+            # Resolution
             WID = infoObj.current_w
             HGT = infoObj.current_h
 
