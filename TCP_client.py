@@ -33,7 +33,7 @@ def recvall(conn, length):
     return buf
 
 
-def main(host='144.96.63.116', port=5009):
+def main(host='144.96.63.116', port=5012):
     pygame.init()
     pygame.display.set_caption('SFA Cast')
     infoObj = pygame.display.Info()
