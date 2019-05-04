@@ -15,7 +15,7 @@ import datetime
 import struct
 
 
-SFACAST_GRP = '144.96.59.122'
+SFACAST_GRP = '144.96.63.46'
 
 # pathh() gets the pathname from SFACastGUICLIENT.py
 def pathh():

@@ -18,6 +18,7 @@ pygame.init()
 infoObj = pygame.display.Info()
 WID = infoObj.current_w # Width
 HGT = infoObj.current_h # Height
+
 def retreive_frame(conn):
     with mss() as sct:
         # The region that is needed to be captured - using the Width and Height defined
