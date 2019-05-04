@@ -10,7 +10,6 @@ from zlib import compress
 import socket
 import os
 from mss import mss
-import cv2
 import pygame
 
 # Initalize Pygame
