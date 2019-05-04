@@ -1,6 +1,8 @@
 Screenshot help:
 
 To take a screenshot press F12 on your keyboard.
+*There is no way to screenshot on MacOS
+-sorry
 
 It will create a folder called "SFACAST-Screenshots" in the SFA-CAST folder the first time that it is used.
 Then it will continue save them in that folder as long as the name is not changed.

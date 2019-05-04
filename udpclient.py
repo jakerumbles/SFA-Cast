@@ -1,3 +1,10 @@
+# Networking Project
+# Ruben, Emalee, Jake
+# 
+# This is the UDP Multicast Client 
+# This establishes a UDP Multicast socket and connection#
+
+# Libraries
 import socket
 from zlib import decompress
 import sys
@@ -10,17 +17,17 @@ import struct
 
 SFACAST_GRP = '144.96.59.122'
 
-
+# pathh() gets the pathname from SFACastGUICLIENT.py
 def pathh():
     direct = os.path.expanduser('~/Desktop')
     newpath = direct + "/SFACAST-Screenshots"
     return newpath
 
+# Takes the screenshot, names the screesnshot using the date and time and returns the new path
 def screenshot_path():
     path = datetime.datetime.now().strftime('./screenshot/screenshot_%Y-%m-%d_%H_%M_%S.jpg')
     print("Screenshot saved as: %s" % path)
     return path
-
 
 def buffer(conn, check):
     buf = b''
@@ -35,28 +42,31 @@ def buffer(conn, check):
 
 
 def main(host='224.0.0.1', port=8080):
+    # Initalize Pygame
     pygame.init()
     pygame.display.set_caption('SFA Cast')
     infoObj = pygame.display.Info()
-    WID = infoObj.current_w
-    HGT = infoObj.current_h
+    WID = infoObj.current_w # Width
+    HGT = infoObj.current_h # Height
     screen = pygame.display.set_mode((1600, 900), pygame.RESIZABLE)
     clock = pygame.time.Clock()
     watching = True    
 
+    # Socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+    # bind YOUR IP address and port
     sock.bind(('', port))
-
     group = socket.inet_aton(SFACAST_GRP)
     mreq = struct.pack('4sL', group, socket.INADDR_ANY)
-    #sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+    sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
 
+    # Receives Width 
     passed_w, addr = sock.recvfrom(4)
     w = int(str(passed_w, 'utf8'))
     print('received resolution width {} from {}'.format(w, addr))
 
-
+    # Receives Height
     passed_h, addr = sock.recvfrom(4)
     h = int(str(passed_h, 'utf8'))
     print('received resolution height {} from {}'.format(h, addr))
@@ -65,20 +75,25 @@ def main(host='224.0.0.1', port=8080):
     try:
         while watching:
             for event in pygame.event.get():
+                # Resizes the window so that the feed is resized and not cut off
                 if event.type == pygame.VIDEORESIZE:
-                    # There's some code to add back window content here.
                     screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+                # Quit button breaks the Watching loop #
                 if event.type == pygame.QUIT:
                     watching = False
                     break
                 elif event.type == pygame.KEYDOWN :
+                    # F12 calls the save screenshot function #
                     if event.key == pygame.K_F12:
                         pygame.image.save(pygame.display.get_surface(), screenshot_path())
+                    # Escape key breaks the watching loop
+                    # Useful for malfunctions #
                     if event.key == pygame.K_ESCAPE :
                         print("ESC key pressed. Closing Window.")
                         watching = False
                         break
             infoObj = pygame.display.Info()
+            # Resolution
             WID = infoObj.current_w
             HGT = infoObj.current_h
 
@@ -103,7 +118,6 @@ def main(host='224.0.0.1', port=8080):
 
             # Create the Surface from raw 
             img = pygame.image.fromstring(pixel, (w, h), 'RGB')
-
             dis = pygame.transform.smoothscale(img, (WID,HGT))
 
             # Display the picture

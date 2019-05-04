@@ -4,6 +4,7 @@
 # This is the TCP Client 
 # This establishes a TCP socket and connection#
 
+# Libraries
 import socket
 from zlib import decompress
 import sys
@@ -13,13 +14,15 @@ import threading
 import datetime
 from SFACastGUICLIENT import pathname
 
+# pathh() gets the pathname from SFACastGUICLIENT.py
 def pathh():
     direct = pathname
     return direct
 
+# Takes the screenshot, names the screesnshot using the date and time and returns the new path
 def screenshot_path():
     path = datetime.datetime.now().strftime(pathname() + '/screenshot_%Y-%m-%d_%H_%M_%S.jpg')
-    print("Screenshot saved as: %s" % path)
+    # print("Screenshot saved as: %s" % path)
     return path
 
 
@@ -33,23 +36,30 @@ def recvall(conn, length):
     return buf
 
 
-def main(host='144.96.63.116', port=5009):
+def main(host='144.96.63.46', port=5000):
     pygame.init()
     pygame.display.set_caption('SFA Cast')
     infoObj = pygame.display.Info()
-    WID = infoObj.current_w
-    HGT = infoObj.current_h
+    WID = infoObj.current_w # Width
+    HGT = infoObj.current_h # Height 
     screen = pygame.display.set_mode((1600, 900), pygame.RESIZABLE)
     clock = pygame.time.Clock()
     watching = True    
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.connect((host, port))
+    try:
+        #Socket
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.connect((host, port))
+    except ConnectionRefusedError as e:
+        print("Server is not broadcasting...exiting program")
+        sys.exit(1)
 
+    # Receives Width 
     passed_w = sock.recv(4)
     w = int(str(passed_w, 'utf8'))
     print(w)
 
+    # Receives Height
     passed_h = sock.recv(4)
     h = int(str(passed_h, 'utf8'))
     print(h)
@@ -57,20 +67,25 @@ def main(host='144.96.63.116', port=5009):
     try:
         while watching:
             for event in pygame.event.get():
+                # Resizes the window so that the feed is resized and not cut off
                 if event.type == pygame.VIDEORESIZE:
-                    # There's some code to add back window content here.
                     screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+                # Quit button breaks the Watching loop #
                 if event.type == pygame.QUIT:
                     watching = False
                     break
                 elif event.type == pygame.KEYDOWN :
+                    # F12 calls the save screenshot function #
                     if event.key == pygame.K_F12:
                         pygame.image.save(pygame.display.get_surface(), screenshot_path())
+                    # Escape key breaks the watching loop
+                    # Useful for malfunctions #
                     if event.key == pygame.K_ESCAPE :
                         print("ESC key pressed. Closing Window.")
                         watching = False
                         break
             infoObj = pygame.display.Info()
+            # Resolution
             WID = infoObj.current_w
             HGT = infoObj.current_h
 
