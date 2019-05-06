@@ -14,8 +14,7 @@ import threading
 import datetime
 import struct
 
-
-SFACAST_GRP = '144.96.63.46'
+SFACAST_GRP = '224.0.0.1'
 
 # pathh() gets the pathname from SFACastGUICLIENT.py
 def pathh():
@@ -45,9 +44,7 @@ def main(host='224.0.0.1', port=8080):
     # Initalize Pygame
     pygame.init()
     pygame.display.set_caption('SFA Cast')
-    infoObj = pygame.display.Info()
-    WID = infoObj.current_w # Width
-    HGT = infoObj.current_h # Height
+
     screen = pygame.display.set_mode((1600, 900), pygame.RESIZABLE)
     clock = pygame.time.Clock()
     watching = True    
@@ -56,7 +53,8 @@ def main(host='224.0.0.1', port=8080):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
     # bind YOUR IP address and port
-    sock.bind(('', port))
+    local = socket.gethostbyname(socket.gethostname())
+    sock.bind((local, port))
     group = socket.inet_aton(SFACAST_GRP)
     mreq = struct.pack('4sL', group, socket.INADDR_ANY)
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
@@ -106,12 +104,11 @@ def main(host='224.0.0.1', port=8080):
             #si = int.from_bytes(sock.recvfrom(1024), byteorder='big')
             si, addr = sock.recvfrom(size_len*2)
             size = int(str(si,'utf-8'))
-            #print(size)
 
+            # Recieve ending of while loop in buffer method
             ending, addr = sock.recvfrom(4)
             check = ending.decode('utf-8')
             check = int(check)
-            #print("ending {}".format(check))
 
             pixels = buffer(sock, check)
             pixel = decompress(pixels)
