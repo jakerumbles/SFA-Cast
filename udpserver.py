@@ -61,6 +61,8 @@ def retreive_frame(conn):
                 max = max + 4096
                 check -=1
 
+def main(port=5000):
+    group = (SFACAST_GROUP, SFACAST_PORT)
     # Create socket object 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
