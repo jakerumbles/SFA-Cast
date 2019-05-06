@@ -9,9 +9,7 @@ from threading import Thread
 from zlib import compress
 import socket
 from mss import mss
-import cv2
 import pygame
-import time
 
 SFACAST_GROUP = '224.0.0.1'   # IP from Dr. Glendowne
 SFACAST_PORT = 8080         # High number port
@@ -63,11 +61,6 @@ def retreive_frame(conn):
                 max = max + 4096
                 check -=1
 
-def main():
-
-    GRP = "224.0.0.1"
-    PORT= 8080
-    group = (GRP, PORT)
     # Create socket object 
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)

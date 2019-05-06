@@ -40,7 +40,7 @@ def buffer(conn, check):
 
 
 
-def main(host='224.0.0.1', port=8080):
+def main(port=8080):
     # Initalize Pygame
     pygame.init()
     pygame.display.set_caption('SFA Cast')
@@ -99,9 +99,7 @@ def main(host='224.0.0.1', port=8080):
             # Retreive the size of the pixels length, the pixels length and pixels
             s_len, addr = sock.recvfrom(1024)
             size_len = int(str(s_len, 'utf-8'))
-            #print(size_len)
-
-            #si = int.from_bytes(sock.recvfrom(1024), byteorder='big')
+            
             si, addr = sock.recvfrom(size_len*2)
             size = int(str(si,'utf-8'))
 
