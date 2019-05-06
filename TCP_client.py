@@ -37,11 +37,11 @@ def recvall(conn, length):
 
 
 def main(host='144.96.63.46', port=5000):
+
     pygame.init()
     pygame.display.set_caption('SFA Cast')
-    infoObj = pygame.display.Info()
-    WID = infoObj.current_w # Width
-    HGT = infoObj.current_h # Height 
+    
+    # Initialize pygame window to 1600x900.
     screen = pygame.display.set_mode((1600, 900), pygame.RESIZABLE)
     clock = pygame.time.Clock()
     watching = True    
@@ -49,7 +49,6 @@ def main(host='144.96.63.46', port=5000):
     try:
         #Socket
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((host, port))
     except ConnectionRefusedError:
         print("Server is not broadcasting...exiting program")
         sys.exit(1)
@@ -85,7 +84,7 @@ def main(host='144.96.63.46', port=5000):
                         watching = False
                         break
             infoObj = pygame.display.Info()
-            # Resolution
+            # Client Resolution
             WID = infoObj.current_w
             HGT = infoObj.current_h
 
@@ -97,12 +96,16 @@ def main(host='144.96.63.46', port=5000):
             # Create the Surface from raw 
             img = pygame.image.fromstring(pixels, (w, h), 'RGB')
 
+            # Scale surface to fit into resized window
             dis = pygame.transform.smoothscale(img, (WID,HGT))
+
             # Display the picture
             screen.blit(dis, (0, 0))
             pygame.display.flip()
+            # Max Framerate
             clock.tick(60)
     finally:
+        # Close socket when stream window is closed
         print("Closing Connection")
         sock.close()
 
