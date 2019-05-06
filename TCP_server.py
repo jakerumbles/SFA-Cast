@@ -14,6 +14,8 @@ import pygame
 
 # Initalize Pygame
 pygame.init()
+
+# Grabs the current screen resolution
 infoObj = pygame.display.Info()
 WID = infoObj.current_w # Width
 HGT = infoObj.current_h # Height
@@ -25,7 +27,7 @@ def retreive_frame(conn):
         while 'capturing':
             # Capture the screen
             img = sct.grab(monitor)
-            # Tweak the compression level here (0-9)
+            # Compression level. 1 being lowest, 9 being highest
             pixels = compress(img.rgb, 9)
             # Send the size of the pixels length
             size = len(pixels)
@@ -37,19 +39,22 @@ def retreive_frame(conn):
             # Send pixels
             conn.sendall(pixels)
 
-def main(host='144.96.63.46', port=5000):
+def main(port=5000):
     '''
     Main method
     '''
-
+    
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.bind((host, port)) # Bind to group and host
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        local = socket.gethostbyname(socket.gethostname())
+        sock.bind((local, port)) # Bind to group and host
         sock.listen(10) # Allows 10 machines to listen
     except OSError as e:
         print("****Likely the port was already in use.  Increment port by 1 and try again****")
         print("The error: " + str(e))
     try:
+        print("listening on %s:%s" % (local, port))
         while 'connected':
             # Get connection and the address that you are sending to
             conn, addr = sock.accept() 
