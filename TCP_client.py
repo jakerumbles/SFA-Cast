@@ -36,7 +36,7 @@ def recvall(conn, length):
     return buf
 
 
-def main(host='144.96.6.33', port=5000):
+def main(host='192.168.1.8', port=5000):
 
     try:
         #Socket
@@ -76,7 +76,7 @@ def main(host='144.96.6.33', port=5000):
                     break
                 elif event.type == pygame.KEYDOWN :
                     # F12 calls the save screenshot function #
-                    if event.key == pygame.K_F12:
+                    if event.key == pygame.K_S:
                         pygame.image.save(pygame.display.get_surface(), screenshot_path())
                     # Escape key breaks the watching loop
                     # Useful for malfunctions #

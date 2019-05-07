@@ -40,10 +40,6 @@ def retreive_frame(conn):
             conn.sendall(pixels)
 
 def main(port=5000):
-    '''
-    Main method
-    '''
-    
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -67,7 +63,8 @@ def main(port=5000):
             thread = Thread(target=retreive_frame, args=(conn,)) 
             thread.start()
     except:
-        print("problem lol")
+        #print("problem")
+        print()
     finally:
         sock.close()
 
