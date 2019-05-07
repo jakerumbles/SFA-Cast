@@ -36,15 +36,7 @@ def recvall(conn, length):
     return buf
 
 
-def main(host='144.96.63.46', port=5000):
-
-    pygame.init()
-    pygame.display.set_caption('SFA Cast')
-    
-    # Initialize pygame window to 1600x900.
-    screen = pygame.display.set_mode((1600, 900), pygame.RESIZABLE)
-    clock = pygame.time.Clock()
-    watching = True    
+def main(host='144.96.6.33', port=5000):
 
     try:
         #Socket
@@ -53,6 +45,14 @@ def main(host='144.96.63.46', port=5000):
     except ConnectionRefusedError:
         print("Server is not broadcasting...exiting program")
         sys.exit(1)
+
+    pygame.init()
+    pygame.display.set_caption('SFA Cast')
+    
+    # Initialize pygame window to 1600x900.
+    screen = pygame.display.set_mode((1600, 900), pygame.RESIZABLE)
+    clock = pygame.time.Clock()
+    watching = True    
 
     # Receives Width 
     passed_w = sock.recv(4)
